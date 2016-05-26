@@ -12,6 +12,67 @@ html, body{
 	height: 600px;
 	position: relative;
 	overflow: hidden;
+	border-bottom: solid 2px gray;
+}
+
+.nav-bar{
+	list-style-type: none;
+	text-align: center;
+	z-index: 10;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	padding: 0px;
+}
+
+.logo-container{
+	position: absolute;
+	left: 10px;
+	top: 15px;
+	z-index: 11;
+}
+
+.logo-container img{
+	width: 90px;
+}
+
+.nav-bar li{
+	display: inline-block;
+	padding: 20px;
+}
+
+.nav-bar a{
+	text-decoration: none;
+	color: white;
+	text-shadow: 2px 2px 5px black;
+}
+
+.slider-nav{
+	list-style-type: none;
+	text-align: center;
+	z-index: 10;
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	padding: 0px;
+	-ms-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.slider-nav li{
+	background-color: #009688;
+	border-radius: 50px;
+	height: 15px;
+	width: 15px;
+	display: inline-block;
+	cursor: pointer;
+	margin: 5px;
+}
+
+.slider-nav li.active-button{
+	background-color: white;
 }
 
 [class^="main-header"]{
@@ -22,6 +83,7 @@ html, body{
 	left: 0px;
 	width: 100%;
 	display: none;
+	z-index: 0;
 }
 
 [class^="main-header"].active{
@@ -40,22 +102,30 @@ html, body{
 	background-image: url('../img/phoneInHand.jpg');	
 }
 
+.main-header-4{
+	background-image: url('../img/city.jpg');
+}
+
 .inner-header{
 	text-align: center;
 	position: relative;
 	top: 50%;
 	left: 50%;
+	-ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
 }
 
 .inner-header h1{
-	font-size: 2.5em;
+	font-size: 3em;
 	color: white;
 	font-weight: 700;
+	text-shadow: 2px 2px 3px black;
 }
 
 .inner-header p{
 	color: lightblue;
+	text-shadow: 2px 2px 3px black;
 	font-size: 1.6em;
 	font-weight: 400;
 	font-family: 'PT Sans Narrow', Arial, Tahoma, Sans-serif, Verdana, Helvetica;
@@ -67,37 +137,112 @@ html, body{
 	color: white;
 	background-color: transparent;
 	border: solid 2px white;
+	display: inline-block;
 }
 
 .fade-in-top-bottom{
+	-webkit-animation-name: fade-in-bottom;
+	-webkit-animation-duration: 1.2s;
 	animation-name: fade-in-bottom;
-	animation-duration: 1s;
+	animation-duration: 1.2s;
 }
 
 .fade-out-bottom-top{
+	-webkit-animation-name: fade-out-top;
+	-webkit-animation-duration: 1s;
 	animation-name: fade-out-top;
 	animation-duration: 1s;
 }
 
 .fade-in-bottom-top{
-	animation-name: fade-in-top;
-	animation-duration: 1s;
+	-webkit-animation-name: fade-in-topss;
+	-webkit-animation-duration: 1.2s;
+	animation-name: fade-in-topss;
+	animation-duration: 1.2s;
 }
 
 .fade-out-top-bottom{
-	animation-name: fade-out-bottom;
+	-webkit-animation-name: fade-out-bottomss;
+	-webkit-animation-duration: 1s;
+	animation-name: fade-out-bottomss;
 	animation-duration: 1s;
 }
 
 .fade-in-left-right{
+	-webkit-animation-name: fade-in-right;
+	-webkit-animation-duration: 1.2s;
 	animation-name: fade-in-right;
-	animation-duration: 1s;
+	animation-duration: 1.2s;
 }
 
 .fade-out-left-right{
+	-webkit-animation-name: fade-out-right;
+	-webkit-animation-duration: 1s;
 	animation-name: fade-out-right;
 	animation-duration: 1s;
 }
+
+/*
+	WEBKIT ANIMATIONS
+*/
+
+@-webkit-keyframes fade-out-top{
+	0%{opacity: 1;
+		-webkit-transform: translateY(0px); 
+		transform: translateY(0px);}
+	100%{opacity: 0;
+		-webkit-transform: translateY(-120px);
+		transform: translateY(-120px);}
+}
+
+@-webkit-keyframes fade-in-bottom{
+	0%{opacity: 0; 
+		-webkit-transform: translateY(-120px);
+		transform: translateY(-120px);}
+	100%{opacity: 1; 
+		-webkit-transform: translateY(0px);
+		transform: translateY(0px);}
+}
+
+@-webkit-keyframes fade-in-topss{
+	0%{opacity: 0; 
+		-webkit-transform: translateY(60px);
+		transform: translateY(60px);}
+	100%{opacity: 1; 
+		-webkit-transform: translateY(0px);
+		transform: translateY(0px);}
+}
+
+@-webkit-keyframes fade-out-bottomss{
+	0%{opacity: 1; 
+		-webkit-transform: translateY(0px);
+		transform: translateY(0px);}
+	100%{opacity: 0; 
+		-webkit-transform: translateY(120px);
+		transform: translateY(120px);}
+}
+
+@-webkit-keyframes fade-in-right{
+	0%{opacity: 0; 
+		-webkit-transform: translateX(-100px);
+		transform: translateX(-100px);}
+	100%{opacity: 1;
+		-webkit-transform: translateX(0px);
+		transform: translateX(0px);}
+}
+
+@-webkit-keyframes fade-out-right{
+	0%{opacity: 1; 
+		-webkit-transform: translateX(0px);
+		transform: translateX(0px);}
+	100%{opacity: 0; 
+		-webkit-transform: translateX(100px);
+		transform: translateX(100px);}
+}
+
+/*
+	END OF WEBKIT ANIMATIONS
+*/
 
 @keyframes fade-out-top{
 	0%{opacity: 1; 
@@ -113,14 +258,14 @@ html, body{
 		transform: translateY(0px);}
 }
 
-@keyframes fade-in-top{
+@keyframes fade-in-topss{
 	0%{opacity: 0; 
-		transform: translateY(120px);}
-	100%{opacity: 1;
+		transform: translateY(60px);}
+	100%{opacity: 1; 
 		transform: translateY(0px);}
 }
 
-@keyframes fade-out-bottom{
+@keyframes fade-out-bottomss{
 	0%{opacity: 1; 
 		transform: translateY(0px);}
 	100%{opacity: 0; 
@@ -139,4 +284,83 @@ html, body{
 		transform: translateX(0px);}
 	100%{opacity: 0; 
 		transform: translateX(100px);}
+}
+
+/*
+FIRST SECTION
+*/
+
+.first-section{
+	background-color: #333333;
+}
+
+.section-container{
+	padding-top: 15px;
+	max-width: 1000px;
+	margin: auto;
+	text-align: center;
+	background-color: transparent;
+	color: white;
+}
+
+.card-container{
+	width: 380px;
+	height: 220px;
+	display: inline-block;
+	margin: 20px;
+	
+}
+
+.card-1{
+	background-color: #B70AA4;
+	font-family: 'Lato', sans-serif;
+}
+
+.card-1 h2{
+	font-weight: 900;
+}
+
+.card-1 h2 span{
+	font-weight: 100;
+}
+.card-1 p{
+	font-weight: 300;
+}
+.card-2{
+	background-color: #2E821E;
+	font-family: 'PT Sans Narrow', Sans-serif;
+}
+
+.card-3{
+	background-color: #983C3C;
+	font-family: 'Advent Pro', sans-serif;
+}
+
+.card-4{
+	background-color: #28826C;
+	font-family: 'Quicksand', sans-serif;
+}
+
+
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1; /* ie 6/7 */
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+
+	.card-container{
+		width: 300px;
+		height: 130px;
+		margin: 10px;
+	}
 }

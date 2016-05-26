@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var SliderModule = (function(){
-		//create a new empty object which will handle the 
+		//create a new empty object which will handle the slider
 		var pb = {};
 		pb.el = $('#slider');
 		pb.items = pb.el.find("[class^='main-header']");
@@ -8,6 +8,8 @@ $(document).ready(function(){
 		var currentSlide = 0;
 		var nextSlide = 1;
 		var sliderLength = pb.items.length;
+		//offset calculates from which position do we have to start to link the index from the slide and the slider button
+		var offset = pb.el.children().length - sliderLength;
 		//initialize
 		pb.init = function(settings){
 			//Activate the slider
@@ -15,11 +17,25 @@ $(document).ready(function(){
 		}
 
 		var SliderInit = function(){
-			sliderInterval = setInterval(pb.startSlider, 3000)
+			pb.createNavigation();
+			setSliderInterval();
+		};
+
+		var setSliderInterval = function(){
+			sliderInterval = setInterval(pb.startSlider, 5000);
+		};
+
+		pb.createNavigation = function(){
+			var ulSlider = pb.el.find('.slider-nav');
+			var newLI = '<li></li>';
+			for (var i = 0; i< sliderLength ; i++){
+				ulSlider.append(newLI);
+			}
 		};
 
 		pb.startSlider = function(){
 			var mainDivs = pb.items;
+			var ulSlider = pb.el.find('.slider-nav');
 			if(nextSlide >= sliderLength){
 				nextSlide = 0;
 				currentSlide = sliderLength -1;
@@ -36,7 +52,7 @@ $(document).ready(function(){
 
 			mainDivs.eq(currentSlide).find('a').addClass('fade-out-top-bottom');
 			mainDivs.eq(currentSlide).find('a').removeClass('fade-in-bottom-top');
-			
+
 			mainDivs.eq(currentSlide).fadeOut('slow');
 
 			mainDivs.eq(nextSlide).find('h1').addClass('fade-in-top-bottom');
@@ -48,7 +64,11 @@ $(document).ready(function(){
 			mainDivs.eq(nextSlide).find('a').addClass('fade-in-bottom-top');
 			mainDivs.eq(nextSlide).find('a').removeClass('fade-out-top-bottom');
 			
-			mainDivs.eq(nextSlide).fadeIn('slow');
+			mainDivs.eq(nextSlide).delay(300).fadeIn('slow');
+
+			//find offset of child elements to use their index to match the current slide with the selected button
+			ulSlider.children().removeClass("active-button");
+			ulSlider.children().eq(mainDivs.eq(nextSlide).index() - offset).addClass("active-button");
 
 
 			//update variables
@@ -56,10 +76,18 @@ $(document).ready(function(){
 			nextSlide += 1;
 		};
 
-
+		
+		//add event binders to the dynamically added li elements
+		$('.slider-nav').on('click', 'li', function() {
+			//console.log($(this).index());
+			nextSlide = $(this).index();
+			clearInterval(sliderInterval);
+			pb.startSlider();
+			setSliderInterval();
+			
+		});
 
 		return pb;
-
 
 	}()); //autoexecute on ready
 
