@@ -28,8 +28,15 @@ $(document).ready(function(){
 		pb.createNavigation = function(){
 			var ulSlider = pb.el.find('.slider-nav');
 			var newLI = '<li></li>';
+			var newLIActive = '<li class= "active-button"></li>';
 			for (var i = 0; i< sliderLength ; i++){
-				ulSlider.append(newLI);
+				if (i === 0){
+					ulSlider.append(newLIActive);	
+				}
+				else{
+					ulSlider.append(newLI);
+				}
+				
 			}
 		};
 
@@ -79,7 +86,7 @@ $(document).ready(function(){
 		
 		//add event binders to the dynamically added li elements
 		$('.slider-nav').on('click', 'li', function() {
-			//console.log($(this).index());
+			//set this to be the next slide, stop the function interval and start it again 
 			nextSlide = $(this).index();
 			clearInterval(sliderInterval);
 			pb.startSlider();
