@@ -22,7 +22,7 @@ $(document).ready(function(){
 		};
 
 		var setSliderInterval = function(){
-			sliderInterval = setInterval(pb.startSlider, 5000);
+			sliderInterval = setInterval(pb.startSlider, 4000);
 		};
 
 		pb.createNavigation = function(){
