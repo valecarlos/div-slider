@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Slider!</title>
-  <link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'>
+  <title>Carousel Slider</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,100,300,900' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Advent+Pro:400,700,100' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Quicksand:400,300,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/theme.css">
+  <link rel="stylesheet" type="text/css" href="css/prism.css">
 </head>
 <body>
 	<header id="slider">
-		<a class= "logo-container" href="http://www.carlosvalencia.co"><img src="img/logoV2.svg"></a>
+		<a class= "logo-container" href="http://www.carlosvalencia.co"><img src="img/CVLogo.svg"></a>
 		<ul class= "nav-bar">
 			<li><a href="http://www.carlosvalencia.co/#abs-top">Home</a></li>
 			<li><a href="http://www.carlosvalencia.co/#contact">Contact</a></li>
@@ -50,32 +48,119 @@
 			</div>
 		</div>
 	</header>
-	<section class="first-section">
-		<div class="section-container">
-			<h1>My Personal Favorite Fonts from Google Fonts</h1>
-			<div class="card-container card-1">
-				<h2>LATO <span>LATO</span></h2>
-				<p>A paragraph using this font!</p>
-			</div>
-			<div class="card-container card-2">
-				<h2>PT Sans Narrow<span></span></h2>
-				<p>A paragraph using this font!</p>
-			</div>
-			<div class="card-container card-3">
-				<h2>Advent Pro <span></span></h2>
-				<p>A paragraph using this font!</p>
-			</div>
-			<div class="card-container card-4">
-				<h2>Quicksand <span></span></h2>
-				<p>A paragraph using this font!</p>
-			</div>
-		</div>
-	</section>
-	<section>
+	<section class="article-body">
+		<h1>Carousel Slider Module using the Revealing Module Pattern</h1>
+		<p>In the development of this module, we are going to implement the <a href="">revealing module pattern</a>	in order to make our component re-usable, and to create private variables, which should not be updated from the outside and are only</p>
+			<pre>
+				<code class="language-javascript">
+					$(document).ready(function(){
+						var Slider = function(opt){
+							var slider = {};
+							var currentSlide = 0;
+							var nextSlide = 1;
+							var sliderInterval;
+					
+							var _init = function(options){
+								//recieve options, we need the -el- attribute
+								slider.el = $(options.el); 
+								slider.items = slider.el.find("[class^='main-header']");
+								slider.sliderLength = slider.items.length;
+								slider.offset = slider.el.children().length - slider.sliderLength;
+								createNavigation();
+								setSliderInterval();
+					
+							}
+					
+							var createNavigation = function(){
+								//create the -buttons- to navigate between slides
+								var ulSlider = slider.el.find('.slider-nav'); //position this where you want your navigation buttons to be
+								var newLI = '<li></li>';
+								var newLIActive = '<li class= "active-button"></li>';
+								for (var i = 0; i< slider.sliderLength ; i++){
+									if (i === 0){
+										ulSlider.append(newLIActive);	
+									}
+									else{
+										ulSlider.append(newLI);
+									}
+								}
+								addEventListeners();
+							};
+					
+							var addEventListeners = function(){
+								// add event binders to the dynamically added li elements
+								slider.el.find('.slider-nav').on('click', 'li', function() {
+									//set this -> this will be the  to be the next slide, stop the function interval and start it again 
+									nextSlide = $(this).index();
+									clearInterval(sliderInterval);
+									startSlider();
+									setSliderInterval();
+								});
+							}
+					
+							var setSliderInterval = function(){
+								sliderInterval = setInterval(startSlider, 4000);
+							};
+					
+							var startSlider = function(){
+								var mainDivs = slider.items;
+								var ulSlider = slider.el.find('.slider-nav');
+								//which slide comes next?
+								if(nextSlide >= slider.sliderLength){
+									nextSlide = 0;
+									currentSlide = slider.sliderLength -1;
+								}
+					
+								//animations using the eq selector
+								//we first add the animation class, and then remove the previous one we don't want
+								//toggle class, it results in an unwanted behaviour
+								mainDivs.eq(currentSlide).find('h1').addClass('fade-out-bottom-top');
+								mainDivs.eq(currentSlide).find('h1').removeClass('fade-in-top-bottom');
+					
+								mainDivs.eq(currentSlide).find('p').addClass('fade-out-left-right');
+								mainDivs.eq(currentSlide).find('p').removeClass('fade-in-left-right');
+					
+								mainDivs.eq(currentSlide).find('a').addClass('fade-out-top-bottom');
+								mainDivs.eq(currentSlide).find('a').removeClass('fade-in-bottom-top');
+					
+								mainDivs.eq(currentSlide).fadeOut('slow');
+					
+								mainDivs.eq(nextSlide).find('h1').addClass('fade-in-top-bottom');
+								mainDivs.eq(nextSlide).find('h1').removeClass('fade-out-bottom-top');
+								
+								mainDivs.eq(nextSlide).find('p').addClass('fade-in-left-right');
+								mainDivs.eq(nextSlide).find('p').removeClass('fade-out-left-right');
+					
+								mainDivs.eq(nextSlide).find('a').addClass('fade-in-bottom-top');
+								mainDivs.eq(nextSlide).find('a').removeClass('fade-out-top-bottom');
+								
+								mainDivs.eq(nextSlide).delay(300).fadeIn('slow');
+					
+								//find offset of child elements to use their index to match the current slide with the selected button
+								ulSlider.children().removeClass("active-button");
+								ulSlider.children().eq(mainDivs.eq(nextSlide).index() - slider.offset).addClass("active-button");
+					
+					
+								//update variables
+								currentSlide = nextSlide;
+								nextSlide += 1;
+							};
+					
+							return {
+								init: _init // reveal only the init function
+							}
+							
+						}
+						var headerSlider = new Slider();
+						headerSlider.init({el: '#slider'});
+					});
+				</code>
+			</pre>
 	</section>
 	<footer>
 	</footer>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script src="js/prism.js"></script>
 	<script src="js/script.js"></script>
 </body>
 </html>

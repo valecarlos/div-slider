@@ -364,3 +364,25 @@ FIRST SECTION
 		margin: 10px;
 	}
 }
+
+/*Articla styling*/
+section.article-body{
+	margin: auto;
+	padding: 20px;
+	max-width: 1020px;
+	font-family: 'Lato', sans-serif;
+}
+section.article-body h1{
+	text-align: center;
+	padding: 0px 30px;
+	color: #636363;
+	font-size: 36px;
+	font-weight: 400;
+	margin: 20px 10%;
+}
+
+section.article-body p{
+	line-height: 150%;
+	color: #4e4e4e;
+	font-size: 18px;
+}
