@@ -381,8 +381,21 @@ section.article-body h1{
 	margin: 20px 10%;
 }
 
-section.article-body p{
-	line-height: 150%;
+section.article-body p, ul{
+	line-height: 160%;
 	color: #4e4e4e;
 	font-size: 18px;
+}
+
+span.code{
+	display: inline-block;
+	background-color: #E4E4E4;
+	font-family: Consolas, Monaco, Arial;
+	padding: 0px 5px;
+	border-radius: 4px;
+	font-size: 15px;
+}
+
+section.article-body ul{
+	list-style: none;
 }
