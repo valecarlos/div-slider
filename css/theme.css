@@ -399,3 +399,57 @@ span.code{
 section.article-body ul{
 	list-style: none;
 }
+
+footer{
+	text-align: center;
+	padding: 50px 20px;
+	background-color: #131313;
+}
+footer a{
+	display: inline-block;
+	max-width: 700px;
+	text-decoration: none;
+	color: white;
+	font-size: 18px;
+	letter-spacing: 3px;
+	transition: all 0.1s ease-in-out;
+}
+
+footer .img-container{
+	position: relative;
+	display: inline-block;
+}
+
+footer img{
+	vertical-align: middle;
+}
+
+footer .img-container span{
+	position: absolute;
+	height: 99%;
+	width: 99%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: solid 2px white;
+	border-radius: 50%;
+	opacity: 1;
+	visibility: hidden;
+	transition: all 0.6s ease-out;
+}
+
+footer a:hover .img-container span{
+	animation: pulse 0.6s;
+}
+
+@keyframes pulse {
+	0%{
+		visibility: visible;
+	}
+	100%{
+		visibility: hidden;
+		width: 300%;
+		height: 300%;
+		opacity: 0;
+	}
+}

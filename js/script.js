@@ -9,11 +9,12 @@ var Slider = function(options){
 	var nextSlide = 1;
 	var sliderInterval = false;
 
-	slider.el = document.querySelector(options.el);
-	slider.sliderTimeInterval = options.sliderTimeInterval;
-	slider.items = slider.el.querySelectorAll("[class^='main-header']");
-	slider.sliderLength = slider.items.length;
-	slider.offset = slider.el.children.length - slider.sliderLength;
+	slider.el = document.querySelector(options.el); //the slider container
+	slider.sliderTimeInterval = options.sliderTimeInterval; //time interval passed by the user
+	slider.items = slider.el.querySelectorAll("[class^='main-header']"); //items
+	slider.sliderLength = slider.items.length; //how many slides?
+	slider.offset = slider.el.children.length - slider.sliderLength; //the slider container's children vs which of those children are actually slides
+
 	_createNavigation();
 	startSliderInterval();
 
@@ -39,7 +40,7 @@ var Slider = function(options){
 		slider.el.querySelector('.slider-nav').addEventListener('click', function(event) {
 			//create our event delegation
 			if (event.target && event.target.nodeName == "LI"){
-				//set this -> this will be the  to be the next slide, stop the function interval and start it again 
+				//set this -> this will be the link to be the next slide, stop the function interval and start it again 
 				nextSlide = indexInParent(event.target);
 				_startSlider();
 				startSliderInterval();
@@ -69,7 +70,6 @@ var Slider = function(options){
 			currentSlide = slider.sliderLength -1;
 		}
 
-		//animations using the eq selector
 		//we first add the animation class, and then remove the previous one we don't want
 		//toggle class, it results in an unwanted behaviour
 

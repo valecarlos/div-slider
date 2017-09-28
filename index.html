@@ -69,6 +69,10 @@
 				</li>
 			</ul>
 		</p>
+		<p>
+			Now that we have our initial variables, we are goint to start with the implementation of our revealing module pattern so, we are going to return an object literal, which will be empty for now, but there it's where we want to make our private variables/function available to the outside world.
+		</p>
+		<p>We should now add a simple validation to know whether we have received an element in our options and our code should look like this now:</p>
 		<pre>
 			<code class="language-javascript">
 				var Slider = function(options){
@@ -84,14 +88,78 @@
 
 					//return the functions we want to reveal
 					return {
-						startSliderInterval: startSliderInterval,
-						stopSliderInterval: stopSliderInterval
+						//here is where we will return our public functions
 					}
 				}
 			</code>
 		</pre>
+		<p>
+			We are now going to use the properties that we have received in the <span class="code">options</span> object and assign them to properties inside our <span class="code">slider</span> object, we will also get a reference to how many slides have we got inside our slider container so when the time comes to add/remove slide, we will have to remove the html only.
+		</p>
+		<pre>
+			<code class="language-javascript">
+				//variables
+
+				slider.el = document.querySelector(options.el); //the slider container
+				slider.sliderTimeInterval = options.sliderTimeInterval; //time interval passed by the user
+				slider.items = slider.el.querySelectorAll("[class^='main-header']"); //items
+				slider.sliderLength = slider.items.length; //how many slides?
+				slider.offset = slider.el.children.length - slider.sliderLength; //the slider container's children vs which of those children are actually slides
+			</code>
+		</pre>
+		<p>
+			Cool! now that we have most of our variables available, we are going to start by dynamically creating a navigation panel, for this we are going to create the private functions <span class="code">_createNavigation</span> and <span class="code">_addEventListeners</span>, they are private because we will not make them available in the returned object literal.
+		</p>
+		<p>
+			In the <span class="code">_addEventListeners</span> function, we have to use <a href="">event delegation</a> because we are dynamically adding our <span class="code">li</span> elements, we have listen to the click event on their parent instead, the one already exists on our html, and then validate if a <span class="code">li</span> node was clicked by evaluating the <span class="code">event.target</span> element.
+		</p>
+		<pre>
+			<code class="language-javascript">
+				function _createNavigation(){
+					//create the -buttons- to navigate between slides
+					var ulSlider = slider.el.querySelector('.slider-nav'); //position this where you want your navigation buttons to be with CSS
+					for (var i = 0; i< slider.sliderLength ; i++){
+						if (i === 0){
+							var newLIActive = document.createElement('li');
+							newLIActive.className = 'active-button';
+							ulSlider.appendChild(newLIActive);	
+						}
+						else{
+							var newLI = document.createElement('li');
+							ulSlider.appendChild(newLI);
+						}
+					}
+					_addEventListeners();
+				};
+
+				function _addEventListeners(){
+					// add event binders to the dynamically added li elements
+					slider.el.querySelector('.slider-nav').addEventListener('click', function(event) {
+						//create our event delegation
+						if (event.target && event.target.nodeName == "LI"){
+							//set this -> this will be the link to be the next slide, stop the function interval and start it again 
+							nextSlide = indexInParent(event.target);
+
+							//we have to implement these functions next
+							//_startSlider();
+							//startSliderInterval();
+						}
+					});
+				}
+			</code>
+		</pre>
+		<p>
+			As you can see in the code above, we have two functions that we have commented out, these are 
+		</p>
 	</section>
 	<footer>
+		<a href="">
+			<p>The whole code is avilable on Github, check it out!</p>
+			<div class="img-container">
+				<img src="./img/GitHub-Mark-Light-32px.png" alt="">
+				<span></span>
+			</div>
+		</a>
 	</footer>
 	<script src="js/prism.js"></script>
 	<script src="js/script.js"></script>
