@@ -50,12 +50,12 @@
 	</header>
 	<section class="article-body">
 		<h1>Carousel Slider Module using the Revealing Module Pattern</h1>
-		<p>In the development of this module, we are going to implement the <a href="">revealing module pattern</a>	in order to make our component re-usable and to create private variables which should <strong>not</strong> be updated from the outside and are only</p>
+		<p>In the development of this module, we are going to implement the <a href="">revealing module pattern</a>	in order to make our component re-usable and to create private variables which should <strong>not</strong> be updated from the outside.</p>
 		<p>
 			We start by declaring a simple <span class="code">Slider</span> function that will take an <span class="code">options</span> object, for now we just need a selector <span class="code">el</span> that we can use to reference an existing element/node in the HTML file and a time value given in miliseconds <span class="code">sliderTimeInterval</span> which we will use as the time interval a slide stays on the screen before moving to the next one.
 		</p>
 		<p>
-			Once we have our Slider constructor into place we are going to declare some variables that we will need to reference later on from the different worker functios, these variables will be:
+			Once we have our Slider constructor into place we are going to declare some variables that we will need to reference later on from the different worker functions, these variables will be:
 			<ul>
 				<li>
 					<span class="code">slider = {};</span> which is going to be a useful object that will be accesible through closure to all of our inner functions, this way we can add/use new properties that we can easily reference from anywhere inside our module.
@@ -70,9 +70,9 @@
 			</ul>
 		</p>
 		<p>
-			Now that we have our initial variables, we are goint to start with the implementation of our revealing module pattern so, we are going to return an object literal, which will be empty for now, but there it's where we want to make our private variables/function available to the outside world.
+			Now that we have our initial variables, we are going to start with the implementation of our revealing module pattern so, we are going to return an object literal, which will be empty for now, but there's where we want to make our private variables and functions available to the outside world.
 		</p>
-		<p>We should now add a simple validation to know whether we have received an element in our options and our code should look like this now:</p>
+		<p>We should now add, a simple validation to know whether we have received an element in our options, our code should look like this now:</p>
 		<pre>
 			<code class="language-javascript">
 				var Slider = function(options){
@@ -94,7 +94,7 @@
 			</code>
 		</pre>
 		<p>
-			We are now going to use the properties that we have received in the <span class="code">options</span> object and assign them to properties inside our <span class="code">slider</span> object, we will also get a reference to how many slides have we got inside our slider container so when the time comes to add/remove slide, we will have to remove the html only.
+			We are now going to use the properties that we have received in the <span class="code">options</span> object and assign them to variables inside our <span class="code">slider</span> object, we will also get a reference of how many slides have we got inside our slider container so when the time comes to add/remove slide, we will have to remove the html only.
 		</p>
 		<pre>
 			<code class="language-javascript">
