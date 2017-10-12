@@ -40,7 +40,8 @@ var Slider = function(options){
 		slider.el.querySelector('.slider-nav').addEventListener('click', function(event) {
 			//create our event delegation
 			if (event.target && event.target.nodeName == "LI"){
-				//set this -> this will be the link to be the next slide, stop the function interval and start it again 
+				//set this -> this will be the link to be the next slide, stop the function interval and start it again
+				stopSliderInterval(); 
 				nextSlide = indexInParent(event.target);
 				_startSlider();
 				startSliderInterval();
@@ -175,10 +176,12 @@ var headerSlider = new Slider({el: '#slider', sliderTimeInterval: 4000});
 //just to try the functions provided by the module work
 Array.prototype.forEach.call(document.querySelectorAll("#slider a"), function(element){
 	element.addEventListener('mouseover', function(){
+		console.log("i should stop");
 		headerSlider.stopSliderInterval();
 	});
 	
 	element.addEventListener('mouseout', function(){
+		console.log("i should stop");
 		headerSlider.startSliderInterval();
 	});
 });
