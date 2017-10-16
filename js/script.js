@@ -11,8 +11,8 @@ var Slider = function(options){
 
 	slider.el = document.querySelector(options.el); //the slider container
 	slider.sliderTimeInterval = options.sliderTimeInterval; //time interval passed by the user
-	slider.items = slider.el.querySelectorAll("[class^='main-header']"); //items
-	slider.sliderLength = slider.items.length; //how many slides?
+	slider.slides = slider.el.querySelectorAll("[class^='slide-container']"); //slides
+	slider.sliderLength = slider.slides.length; //how many slides?
 	slider.offset = slider.el.children.length - slider.sliderLength; //the slider container's children vs which of those children are actually slides
 
 	_createNavigation();
@@ -63,7 +63,7 @@ var Slider = function(options){
 	}
 
 	function _startSlider(){
-		var mainDivs = slider.items;
+		var slides = slider.slides;
 		var ulSlider = slider.el.querySelector('.slider-nav');
 		//which slide comes next?
 		if(nextSlide >= slider.sliderLength){
@@ -74,44 +74,42 @@ var Slider = function(options){
 		//we first add the animation class, and then remove the previous one we don't want
 		//toggle class, it results in an unwanted behaviour
 
-		mainDivs[currentSlide].querySelector('h1').classList.add('fade-out-bottom-top');
-		mainDivs[currentSlide].querySelector('h1').classList.remove('fade-in-top-bottom');
+		slides[currentSlide].querySelector('h1').classList.add('fade-out-bottom-top');
+		slides[currentSlide].querySelector('h1').classList.remove('fade-in-top-bottom');
 
-		mainDivs[currentSlide].querySelector('p').classList.add('fade-out-left-right');
-		mainDivs[currentSlide].querySelector('p').classList.remove('fade-in-left-right');
+		slides[currentSlide].querySelector('p').classList.add('fade-out-left-right');
+		slides[currentSlide].querySelector('p').classList.remove('fade-in-left-right');
 
-		mainDivs[currentSlide].querySelector('a').classList.add('fade-out-top-bottom');
-		mainDivs[currentSlide].querySelector('a').classList.remove('fade-in-bottom-top');
+		slides[currentSlide].querySelector('a').classList.add('fade-out-top-bottom');
+		slides[currentSlide].querySelector('a').classList.remove('fade-in-bottom-top');
 
-		fadeOut(mainDivs[currentSlide], 600);
+		fadeOut(slides[currentSlide], 600); //use our helper function
 
-		mainDivs[nextSlide].querySelector('h1').classList.add('fade-in-top-bottom');
-		mainDivs[nextSlide].querySelector('h1').classList.remove('fade-out-bottom-top');
+		slides[nextSlide].querySelector('h1').classList.add('fade-in-top-bottom');
+		slides[nextSlide].querySelector('h1').classList.remove('fade-out-bottom-top');
 		
-		mainDivs[nextSlide].querySelector('p').classList.add('fade-in-left-right');
-		mainDivs[nextSlide].querySelector('p').classList.remove('fade-out-left-right');
+		slides[nextSlide].querySelector('p').classList.add('fade-in-left-right');
+		slides[nextSlide].querySelector('p').classList.remove('fade-out-left-right');
 
-		mainDivs[nextSlide].querySelector('a').classList.add('fade-in-bottom-top');
-		mainDivs[nextSlide].querySelector('a').classList.remove('fade-out-top-bottom');
+		slides[nextSlide].querySelector('a').classList.add('fade-in-bottom-top');
+		slides[nextSlide].querySelector('a').classList.remove('fade-out-top-bottom');
 		
 		//create a inmediatly self invoked function so we can send the next slide variable as a parameter, otherwise, the variable is updated
 		//and when the setTimeout function is executed, it will use the variable that has been updated in it's closure
 		(function delayAnimation(slideNumber){
 			setTimeout(function(){
-				fadeIn(mainDivs[slideNumber], 600);
+				fadeIn(slides[slideNumber], 600);
 			}, 300);
 		})(nextSlide); 
 
-		//find offset of child elements to use their index to match the current slide with the selected button
-
+		
 		Array.prototype.forEach.call(ulSlider.children, function(element){
 			// remove the active class from each navigation button
 			element.classList.remove("active-button");
 		});
+		//find offset of child elements to use their index to match the current slide with the selected button
 		//now add the active class to the correspondent navigation button
-		ulSlider.children[ indexInParent(mainDivs[nextSlide]) - slider.offset].classList.add("active-button");
-		// ulSlider.children().eq(mainDivs.eq(nextSlide).index() - slider.offset).addClass("active-button");
-
+		ulSlider.children[ indexInParent(slides[nextSlide]) - slider.offset].classList.add("active-button");
 
 		//update variables
 		currentSlide = nextSlide;

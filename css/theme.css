@@ -75,7 +75,7 @@ html, body{
 	background-color: white;
 }
 
-[class^="main-header"]{
+[class^="slide-container"]{
 	background-size: cover;
 	position: absolute;
 	height: 600px;
@@ -86,23 +86,23 @@ html, body{
 	z-index: 0;
 }
 
-[class^="main-header"].active{
+[class^="slide-container"].active{
 	display: block;
 }
 
-.main-header-1{
+.slide-container-1{
 	background-image: url('../img/food.jpg');
 }
 
-.main-header-2{
+.slide-container-2{
 	background-image: url('../img/landscape.jpg');	
 }
 
-.main-header-3{
+.slide-container-3{
 	background-image: url('../img/phoneInHand.jpg');	
 }
 
-.main-header-4{
+.slide-container-4{
 	background-image: url('../img/city.jpg');
 }
 
@@ -286,62 +286,6 @@ html, body{
 		transform: translateX(100px);}
 }
 
-/*
-FIRST SECTION
-*/
-
-.first-section{
-	background-color: #333333;
-}
-
-.section-container{
-	padding-top: 15px;
-	max-width: 1000px;
-	margin: auto;
-	text-align: center;
-	background-color: transparent;
-	color: white;
-}
-
-.card-container{
-	width: 380px;
-	height: 220px;
-	display: inline-block;
-	margin: 20px;
-	
-}
-
-.card-1{
-	background-color: #B70AA4;
-	font-family: 'Lato', sans-serif;
-}
-
-.card-1 h2{
-	font-weight: 900;
-}
-
-.card-1 h2 span{
-	font-weight: 100;
-}
-.card-1 p{
-	font-weight: 300;
-}
-.card-2{
-	background-color: #2E821E;
-	font-family: 'PT Sans Narrow', Sans-serif;
-}
-
-.card-3{
-	background-color: #983C3C;
-	font-family: 'Advent Pro', sans-serif;
-}
-
-.card-4{
-	background-color: #28826C;
-	font-family: 'Quicksand', sans-serif;
-}
-
-
 .clearfix:before,
 .clearfix:after {
   content: "";
@@ -356,16 +300,10 @@ FIRST SECTION
   zoom: 1; /* ie 6/7 */
 }
 
-@media only screen and (min-width: 320px) and (max-width: 768px) {
-
-	.card-container{
-		width: 300px;
-		height: 130px;
-		margin: 10px;
-	}
+/*Article styling*/
+pre{
+	max-height: 500px;
 }
-
-/*Articla styling*/
 section.article-body{
 	margin: auto;
 	padding: 20px;
@@ -375,16 +313,17 @@ section.article-body{
 section.article-body h1{
 	text-align: center;
 	padding: 0px 30px;
-	color: #636363;
-	font-size: 36px;
+	color: #555555;
+	font-size: 38px;
 	font-weight: 400;
 	margin: 20px 10%;
+	text-transform: uppercase;
 }
 
 section.article-body p, ul{
 	line-height: 160%;
-	color: #4e4e4e;
-	font-size: 18px;
+	color: #303030;
+	font-size: 19px;
 }
 
 span.code{
@@ -399,6 +338,19 @@ span.code{
 section.article-body ul{
 	list-style: none;
 }
+
+section.article-body ul li{
+	position: relative;
+	margin-bottom: 10px;
+}
+
+section.article-body ul li::before {
+	content: "♦ ";
+	color: rgb(0, 129, 204);
+	position: absolute;
+	top: 0px;
+	left: -18px;
+  }
 
 footer{
 	text-align: center;

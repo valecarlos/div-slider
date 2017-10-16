@@ -19,28 +19,28 @@
 		<ul class= "slider-nav">
 
 		</ul>
-		<div class="main-header-1 active">
+		<div class="slide-container-1 active">
 			<div class="inner-header">
 				<h1>Carlos Andres Valencia</h1>
 				<p>This is a pretty cool slider!</p>
 				<a href="#">Portfolio</a>
 			</div>
 		</div>
-		<div class="main-header-2">
+		<div class="slide-container-2">
 			<div class="inner-header">
 				<h1>My second Header</h1>
 				<p>This is amazing</p>
 				<a href="#">Contact me</a>
 			</div>
 		</div>
-		<div class="main-header-3">
+		<div class="slide-container-3">
 			<div class="inner-header">
 				<h1>My third Header</h1>
 				<p>This is awesome</p>
 				<a href="#">Contact you</a>
 			</div>
 		</div>
-		<div class="main-header-4">
+		<div class="slide-container-4">
 			<div class="inner-header">
 				<h1>My fourth Header</h1>
 				<p>This is unbelievable</p>
@@ -50,6 +50,11 @@
 	</header>
 	<section class="article-body">
 		<h1>Carousel Slider Module using the Revealing Module Pattern</h1>
+		<p>This article will focus on adding functionality to a predefined HTML and css structure that can be found in the following Pen, the idea is that this markup can be used anywhere within a webpage and by using the Javascript code that we are going to build we will be able to animate the different 'Slides' into a Carousel Slider like the one you can see above, in the header of this article</p>
+
+		<!-- <p data-height="430" data-theme-id="0" data-slug-hash="OxaMJy" data-default-tab="css,result" data-user="valecarlos" data-embed-version="2" data-pen-title="Carousel Slider HTML & CSS start" class="codepen">See the Pen <a href="https://codepen.io/valecarlos/pen/OxaMJy/">Carousel Slider HTML & CSS start</a> by carlos valencia (<a href="https://codepen.io/valecarlos">@valecarlos</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+		<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
+		
 		<p>In the development of this module, we are going to implement the <a href="">revealing module pattern</a>	in order to make our component re-usable and to create private variables which should <strong>not</strong> be updated from the outside.</p>
 		<p>
 			We start by declaring a simple <span class="code">Slider</span> function that will take an <span class="code">options</span> object, for now we just need a selector <span class="code">el</span> that we can use to reference an existing element/node in the HTML file and a time value given in miliseconds <span class="code">sliderTimeInterval</span> which we will use as the time interval a slide stays on the screen before moving to the next one.
@@ -72,7 +77,7 @@
 		<p>
 			Now that we have our initial variables, we are going to start with the implementation of our revealing module pattern so, we are going to return an object literal, which will be empty for now, but there's where we want to make our private variables and functions available to the outside world.
 		</p>
-		<p>We should now add, a simple validation to know whether we have received an element in our options, our code should look like this now:</p>
+		<p>We should now add, a simple validation to know whether we have received an existing DOM element in our options. So far our code should look like this:</p>
 		<pre>
 			<code class="language-javascript">
 				var Slider = function(options){
@@ -102,7 +107,7 @@
 
 				slider.el = document.querySelector(options.el); //the slider container
 				slider.sliderTimeInterval = options.sliderTimeInterval; //time interval passed by the user
-				slider.items = slider.el.querySelectorAll("[class^='main-header']"); //items
+				slider.items = slider.el.querySelectorAll("[class^='slide-container']"); //items
 				slider.sliderLength = slider.items.length; //how many slides?
 				slider.offset = slider.el.children.length - slider.sliderLength; //the slider container's children vs which of those children are actually slides
 			</code>
@@ -111,7 +116,10 @@
 			Cool! now that we have most of our variables available, we are going to start by dynamically creating a navigation panel, for this we are going to create the private functions <span class="code">_createNavigation</span> and <span class="code">_addEventListeners</span>, they are private because we will not make them available in the returned object literal.
 		</p>
 		<p>
-			In the <span class="code">_addEventListeners</span> function, we have to use <a href="">event delegation</a> because we are dynamically adding our <span class="code">li</span> elements, we have listen to the click event on their parent instead, the one already exists on our html, and then validate if a <span class="code">li</span> node was clicked by evaluating the <span class="code">event.target</span> element.
+			In the <span class="code">_addEventListeners</span> function, we have to use <a href="">event delegation</a> because we are dynamically adding our <span class="code">li</span> elements, so we have listen to the click event on their parent instead, the one already exists in our html, and then validate if a <span class="code">li</span> node was clicked by evaluating the <span class="code">event.target</span> element.
+		</p>
+		<p>
+			The code for these last two functions is:
 		</p>
 		<pre>
 			<code class="language-javascript">
@@ -149,8 +157,99 @@
 			</code>
 		</pre>
 		<p>
-			As you can see in the code above, we have two functions that we have commented out, these are 
+			As you can see in the code above, there are two functions that we have commented out, these are:
 		</p>
+		<ul>
+			<li>
+				<span class="code">_startSlider</span>
+				This function calculates which slide comes next based on the current slide and the amount of slides available, using this information it will add/remove the necessary CSS classes to get the different fade-in and fade-out effects on the slide items (Title, Text and Button)
+			</li>
+			<li>
+				<span class="code">startSliderInterval()</span>
+				As its name suggests, this function is responsable of starting the interval on the <span class="code">_startSlider</span> function if it doesn't exist already.
+			</li>
+			<li>
+				Since we have a function to start the interval, we should also have a function to stop that inverval, we will name that function <span class="code">stopSliderInterval</span>
+			</li>
+		</ul>
+
+		<pre>
+			<code class="language-javascript">
+					function startSliderInterval (){
+						if (!sliderInterval){
+							sliderInterval = setInterval(_startSlider, slider.sliderTimeInterval);
+						}
+					};
+				
+					function stopSliderInterval(){
+						if (sliderInterval){
+							clearInterval(sliderInterval);
+							sliderInterval = false; //to easily know the interval is not running as per https://stackoverflow.com/questions/2679141/is-there-a-way-to-check-if-a-var-is-using-setinterval
+						}
+					}
+
+					function _startSlider(){
+						var slides = slider.slides;
+						var ulSlider = slider.el.querySelector('.slider-nav');
+						//which slide comes next?
+						if(nextSlide >= slider.sliderLength){
+							nextSlide = 0;
+							currentSlide = slider.sliderLength -1;
+						}
+				
+						//we first add the animation class, and then remove the previous one we don't want
+						//toggle class, it results in an unwanted behaviour
+				
+						slides[currentSlide].querySelector('h1').classList.add('fade-out-bottom-top');
+						slides[currentSlide].querySelector('h1').classList.remove('fade-in-top-bottom');
+				
+						slides[currentSlide].querySelector('p').classList.add('fade-out-left-right');
+						slides[currentSlide].querySelector('p').classList.remove('fade-in-left-right');
+				
+						slides[currentSlide].querySelector('a').classList.add('fade-out-top-bottom');
+						slides[currentSlide].querySelector('a').classList.remove('fade-in-bottom-top');
+				
+						fadeOut(slides[currentSlide], 600); //use our helper function
+				
+						slides[nextSlide].querySelector('h1').classList.add('fade-in-top-bottom');
+						slides[nextSlide].querySelector('h1').classList.remove('fade-out-bottom-top');
+						
+						slides[nextSlide].querySelector('p').classList.add('fade-in-left-right');
+						slides[nextSlide].querySelector('p').classList.remove('fade-out-left-right');
+				
+						slides[nextSlide].querySelector('a').classList.add('fade-in-bottom-top');
+						slides[nextSlide].querySelector('a').classList.remove('fade-out-top-bottom');
+						
+						//create a inmediatly self invoked function so we can send the next slide variable as a parameter, otherwise, the variable is updated
+						//and when the setTimeout function is executed, it will use the variable that has been updated in it's closure
+						(function delayAnimation(slideNumber){
+							setTimeout(function(){
+								fadeIn(slides[slideNumber], 600);
+							}, 300);
+						})(nextSlide); 
+				
+						
+						Array.prototype.forEach.call(ulSlider.children, function(element){
+							// remove the active class from each navigation button
+							element.classList.remove("active-button");
+						});
+						//find offset of child elements to use their index to match the current slide with the selected button
+						//now add the active class to the correspondent navigation button
+						ulSlider.children[ indexInParent(slides[nextSlide]) - slider.offset].classList.add("active-button");
+				
+						//update variables
+						currentSlide = nextSlide;
+						nextSlide += 1;
+					};
+			</code>
+		</pre>
+		<h2>Helper Functions</h2>
+		<p>As I mentioned before, there are a few helper functions that i've used in the development of this module, these functions are:</p>
+		<ul>
+			<li><span class="code">indexInParent(node)</span></li>
+			<li><span class="code">fadeIn(node, time)</span></li>
+			<li><span class="code">fadeOut(node, time)</span></li>
+		</ul>
 	</section>
 	<footer>
 		<a href="">
